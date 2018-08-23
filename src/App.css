@@ -8,3 +8,6 @@
 .ant-pagination {
   display: none;
 }
+p.sub-title {
+  font-size: 12px;
+}

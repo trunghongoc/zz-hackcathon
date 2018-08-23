@@ -1,45 +1,23 @@
 import React, { Component } from 'react';
-import { Table, Breadcrumb } from 'antd';
+import { Breadcrumb } from 'antd';
+import Table from './../components/Table'
+import { connect } from 'react-redux'
+
+function mapStateToProps(state: Object): Object {
+  return {
+    dashboard: state.dashboardReducer
+  }
+}
+
+function mapDispatchToProps(dispatch: Function): Object {
+  return {
+  }
+}
 
 class Dashboard extends Component {
-  state = {
-    columns: [{
-      title: 'Name',
-      dataIndex: 'name',
-      width: 200,
-    }, {
-      title: 'Số containers',
-      dataIndex: 'containerNuber',
-      width: 100,
-    }, {
-      title: 'Phone',
-      dataIndex: 'phone',
-      width: 200,
-    }, {
-      title: 'Email',
-      dataIndex: 'email',
-      width: 200,
-    }],
-    dataSource: [{
-      key: 1,
-      name: 'Minh Minh',
-      containerNuber: 69,
-      phone: '26276827687',
-      actived: true,
-      email: 'minh@dghdghjdh.com'
-    },
-    {
-      key: 2,
-      name: 'Ducvm',
-      containerNuber: 2,
-      phone: '7638976839768',
-      actived: true,
-      email: 'ducvm@dghdghjdh.com'
-    }]
-  };
-
   render() {
-    let { dataSource, columns } = this.state
+    let { header, data } = this.props.dashboard
+    console.log(this.props)
 
     return (
       <div>
@@ -47,10 +25,13 @@ class Dashboard extends Component {
           <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
         </Breadcrumb>,
 
-        <Table dataSource={dataSource} columns={columns} />
+        <h5>Tổng quan nhân viên</h5>
+        <p>{data.length} total</p>
+
+        <Table header={header} data={data} />
       </div>
     );
   }
 }
 
-export default Dashboard;
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
