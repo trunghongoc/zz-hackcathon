@@ -1,23 +1,42 @@
 import React, { Component } from 'react';
-import { Breadcrumb } from 'antd';
+import { Breadcrumb, message } from 'antd';
 import Table from './../components/Table'
-import { connect } from 'react-redux'
-
-function mapStateToProps(state: Object): Object {
-  return {
-    dashboard: state.dashboardReducer
-  }
-}
-
-function mapDispatchToProps(dispatch: Function): Object {
-  return {
-  }
-}
+import * as Constants from './../constants/var'
+import axios from 'axios';
 
 class Dashboard extends Component {
+  state = {
+    header: [
+      {title: 'Name', key: 'user_name'},
+      {title: 'Chức vụ', key: 'investion'},
+      {title: 'Email', key: 'user_email'},
+      {title: 'Số container', key: 'container_number'}
+    ],
+    data: [
+      {id: 1, user_name: 'Justin Bieber', investion: 'Thực tập', user_email: 'a@a.com', container_number: 69},
+      {id: 2, user_name: 'Phạm Băng Băng', investion: 'Team leader', user_email: 'b@a.com', container_number: 2}
+    ]
+  }
+
+  componentDidMount() {
+    axios.post(Constants.dashboardRoute, {})
+    .then(
+      (res) => {
+        console.log(res)
+      },
+      (error) => { this.showMess(false) }
+    );
+  }
+
+  showMess = (success) => {
+    if (success) {
+    } else {
+      message.error('Xảy ra lỗi', 1)
+    }
+  }
+
   render() {
-    let { header, data } = this.props.dashboard
-    console.log(this.props)
+    let { header, data } = this.state
 
     return (
       <div>
@@ -34,4 +53,4 @@ class Dashboard extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
+export default Dashboard

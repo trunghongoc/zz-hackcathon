@@ -1,5 +1,5 @@
-export const DEMO = 'DEMO'
+export const GET_DASHBOARD = 'GET_DASHBOARD'
 
-// window info
-export const SET_WINDOW_SIZE = 'SET_WINDOW_SIZE'
-export const GET_WINDOW_SIZE = 'GET_WINDOW_SIZE'
+
+export const GET_STAFF = 'GET_STAFF'
+export const CREATE_USER = 'CREATE_USER'

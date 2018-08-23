@@ -4,10 +4,22 @@
 .mr-t-10 {
   margin-top: 10px;
 }
+.mr-t-20 {
+  margin-top: 20px;
+}
+.mr-r-10 {
+  margin-right: 10px;
+}
 
 .ant-pagination {
   display: none;
 }
 p.sub-title {
   font-size: 12px;
+}
+.user-detail-table-opacity span {
+  display: inline-block;
+}
+.user-detail-table-opacity span:first-child {
+  width: 100px;
 }

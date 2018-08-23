@@ -5,6 +5,11 @@ import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import Container from './pages/Container';
 import Template from './pages/Template';
+import Staff from './pages/Staff';
+import UsersCreate from './pages/UsersCreate';
+import UserDetail from './pages/UserDetail'
+import ContainerCreate from './pages/ContainerCreate';
+import ContainerDetail from './pages/ContainerDetail';
 
 
 // redux
@@ -27,7 +32,14 @@ class App extends Component {
                   <Switch>
                     <Route exact path="/" component={Dashboard} />
                     <Route exact path="/dashboard" component={Dashboard} />
+                    <Route exact path="/users" component={Staff} />
+                    <Route exact path="/users/create" component={UsersCreate} />
+                    <Route exact path="/users/detail/:id" component={UserDetail} />
+
                     <Route exact path="/containers" component={Container} />
+                    <Route exact path="/containers/create" component={ContainerCreate} />
+                    <Route exact path="/containers/detail/:id" component={ContainerDetail} />
+
                     <Route exact path="/templates" component={Template} />
                   </Switch>
                 </div>

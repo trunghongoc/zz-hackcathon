@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import { Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom';
+import createHistory from 'history/createHashHistory';
 
 const SubMenu = Menu.SubMenu;
 
 class Navbar extends Component {
   state = {
     current: 'dashboard',
+    history: createHistory()
+  }
+
+  componentDidMount() {
+    let pathName = this.state.history.location.pathname.replace('/', '')
+    this.setState({
+      current: pathName
+    })
   }
 
   logout = () => {
@@ -28,19 +37,19 @@ class Navbar extends Component {
         mode="horizontal"
       >
         <Menu.Item key="dashboard">
-          <Link to="dashboard"><Icon type="home" />Dashboard</Link>
+          <Link to="/dashboard"><Icon type="home" />Dashboard</Link>
         </Menu.Item>
 
-        <Menu.Item key="staff">
-          <Link to="staff"><Icon type="team" />Nhân viên</Link>
+        <Menu.Item key="users">
+          <Link to="/users"><Icon type="team" />Nhân viên</Link>
         </Menu.Item>
 
         <Menu.Item key="templates">
-          <Link to="templates"><Icon type="skin" />Templates</Link>
+          <Link to="/templates"><Icon type="skin" />Templates</Link>
         </Menu.Item>
 
         <Menu.Item key="containers">
-          <Link to="containers"><Icon type="database" />Containers</Link>
+          <Link to="/containers"><Icon type="database" />Containers</Link>
         </Menu.Item>
 
         <SubMenu title={<span><Icon type="setting" />Trung</span>} className="float-right">

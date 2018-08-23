@@ -1,61 +1,67 @@
 import React, { Component } from 'react';
-import { Table } from 'antd';
+import { Breadcrumb } from 'antd';
+import Table from './../components/Table'
+import { Button, message } from 'antd';
+import { Link } from 'react-router-dom';
+import * as Constants from './../constants/var'
+import axios from 'axios';
 
 class Staff extends Component {
   state = {
-    columns: [{
-      title: 'Name',
-      dataIndex: 'name',
-      width: 200,
-    }, {
-      title: 'Số containers',
-      dataIndex: 'containerNuber',
-      width: 100,
-    }, {
-      title: 'Phone',
-      dataIndex: 'phone',
-      width: 200,
-    }, {
-      title: 'Actived',
-      dataIndex: 'actived',
-      width: 100,
-    }, {
-      title: 'Email',
-      key: 'email',
-      render: (email) => (
-        <span>email</span>
-      ),
-      width: 200,
-    }],
-    dataSource: [{
-      key: 1,
-      name: 'Minh Minh',
-      containerNuber: 69,
-      phone: false,
-      actived: true,
-      email: 'minh@dghdghjdh.com'
-    },
-    {
-      key: 2,
-      name: 'Ducvm',
-      containerNuber: 2,
-      phone: false,
-      actived: true,
-      email: 'ducvm@dghdghjdh.com'
-    }]
-  };
+    header: [
+      {title: 'Name', key: 'user_name'},
+      {title: 'Số container', key: 'container_number'},
+      {title: 'Phone', key: 'phone'},
+      {title: 'Email', key: 'user_email'}
+    ],
+    data: [
+      {id: 1, user_name: 'Justin Bieber', investion: 'Thực tập', user_email: 'a@a.com', container_number: 69, phone: '999999999'},
+      {id: 2, user_name: 'Phạm Băng Băng', investion: 'Team leader', user_email: 'b@a.com', container_number: 2, phone: '123456999'}
+    ]
+  }
+
+  componentDidMount() {
+    axios.post(Constants.usersRoute, {})
+    .then(
+      (res) => {
+        console.log(res)
+      },
+      (error) => { this.showMess(false) }
+    );
+  }
+
+  showMess = (success) => {
+    if (success) {
+    } else {
+      message.error('Xảy ra lỗi', 1)
+    }
+  }
 
   render() {
-    let { dataSource, columns } = this.state
+    let { header, data } = this.state
 
     return (
       <div>
-        <h5>Nhan vien page</h5>
+        <Breadcrumb>
+          <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
+          <Breadcrumb.Item>Nhân viên</Breadcrumb.Item>
+        </Breadcrumb>,
 
-        <Table dataSource={dataSource} columns={columns} />
+        <div className="row">
+          <div className="col col-6">
+            <h5>Nhân viên</h5>
+            <p>{data.length} Người</p>
+          </div>
+          <div className="col col-6 text-right">
+            <Link to="/users/create">
+              <Button type="primary" icon="plus">Nhân viên</Button>
+            </Link>
+          </div>
+        </div>
+        <Table header={header} data={data} />
       </div>
     );
   }
 }
 
-export default Staff;
+export default Staff
