@@ -68,7 +68,7 @@ class ContainerDetail extends Component {
           <div className="col col-6">
             <p className="user-detail-table-opacity">
               <span>Ngày tạo:</span>
-              <span>{date}}</span>
+              <span>{date}</span>
             </p>
 
             <p className="user-detail-table-opacity">
