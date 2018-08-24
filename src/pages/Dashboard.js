@@ -4,6 +4,20 @@ import Table from './../components/Table'
 import * as Constants from './../constants/var'
 import axios from 'axios';
 
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+
+function mapStateToProps(state: Object): Object {
+  return {
+    data: state.usersReducer
+  }
+}
+
+function mapDispatchToProps(dispatch: Function): Object {
+  return {
+  }
+}
+
 class Dashboard extends Component {
   state = {
     header: [
@@ -38,6 +52,11 @@ class Dashboard extends Component {
   render() {
     let { header, data } = this.state
 
+    const userRedux = this.props.data.user
+    if (!userRedux.loged) {
+      return <Redirect to="/login"/>
+    }
+
     return (
       <div>
         <Breadcrumb>
@@ -53,4 +72,4 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

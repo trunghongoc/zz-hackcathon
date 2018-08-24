@@ -5,6 +5,20 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Table from './../components/Table'
 
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+
+function mapStateToProps(state: Object): Object {
+  return {
+    data: state.usersReducer
+  }
+}
+
+function mapDispatchToProps(dispatch: Function): Object {
+  return {
+  }
+}
+
 class TemplateDetail extends Component {
 
   state = {
@@ -49,6 +63,11 @@ class TemplateDetail extends Component {
   render() {
     const { name, group, note, date, path, size } = this.state
     const { header, data } = this.state.users
+
+    const userRedux = this.props.data.user
+    if (!userRedux.loged) {
+      return <Redirect to="/login"/>
+    }
 
     return (
       <div>
@@ -118,4 +137,4 @@ class TemplateDetail extends Component {
   }
 }
 
-export default TemplateDetail
+export default connect(mapStateToProps, mapDispatchToProps)(TemplateDetail)

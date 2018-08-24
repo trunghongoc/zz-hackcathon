@@ -3,6 +3,13 @@ import { handleActions } from 'redux-actions'
 import * as ActionTypes from '../actions/action_types'
 
 export const initialState = {
+  user: {
+    loged: false,
+    info: {
+      name: 'Trung Hồ Ngọc',
+      id: 9
+    }
+  },
   header: [
     {title: 'Name', key: 'user_name'},
     {title: 'Số container', key: 'container_number'},
@@ -20,8 +27,17 @@ const staff = handleActions({
     return { ...state }
   },
   [ActionTypes.CREATE_USER]: (state: any, action: any): any => {
-    console.log(action)
     return { ...state }
+  },
+  [ActionTypes.USER_INFO]: (state: any, action: any): any => {
+    return { ...state }
+  },
+  [ActionTypes.USER_INFO_SET]: (state: any, action: any): any => {
+    let newState = {}
+    newState.user = state.user
+    newState.user = { ...action.payload }
+    console.log({newState})
+    return { ...state, ...newState }
   }
 }, initialState)
 

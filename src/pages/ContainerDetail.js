@@ -3,6 +3,19 @@ import { Breadcrumb, message, Button } from 'antd';
 import * as Constants from './../constants/var'
 import axios from 'axios';
 // import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+
+function mapStateToProps(state: Object): Object {
+  return {
+    data: state.usersReducer
+  }
+}
+
+function mapDispatchToProps(dispatch: Function): Object {
+  return {
+  }
+}
 
 class ContainerDetail extends Component {
 
@@ -35,6 +48,11 @@ class ContainerDetail extends Component {
 
   render() {
     const { name, assignee, template, date, cpu, memory  } = this.state
+
+    const userRedux = this.props.data.user
+    if (!userRedux.loged) {
+      return <Redirect to="/login"/>
+    }
 
     return (
       <div>
@@ -92,4 +110,4 @@ class ContainerDetail extends Component {
   }
 }
 
-export default ContainerDetail
+export default connect(mapStateToProps, mapDispatchToProps)(ContainerDetail)

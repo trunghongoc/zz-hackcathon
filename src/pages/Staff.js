@@ -6,6 +6,20 @@ import { Link } from 'react-router-dom';
 import * as Constants from './../constants/var'
 import axios from 'axios';
 
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+
+function mapStateToProps(state: Object): Object {
+  return {
+    data: state.usersReducer
+  }
+}
+
+function mapDispatchToProps(dispatch: Function): Object {
+  return {
+  }
+}
+
 class Staff extends Component {
   state = {
     header: [
@@ -40,6 +54,11 @@ class Staff extends Component {
   render() {
     let { header, data } = this.state
 
+    const userRedux = this.props.data.user
+    if (!userRedux.loged) {
+      return <Redirect to="/login"/>
+    }
+
     return (
       <div>
         <Breadcrumb>
@@ -64,4 +83,4 @@ class Staff extends Component {
   }
 }
 
-export default Staff
+export default connect(mapStateToProps, mapDispatchToProps)(Staff)

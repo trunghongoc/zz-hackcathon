@@ -5,6 +5,20 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Table from './../components/Table'
 
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+
+function mapStateToProps(state: Object): Object {
+  return {
+    data: state.usersReducer
+  }
+}
+
+function mapDispatchToProps(dispatch: Function): Object {
+  return {
+  }
+}
+
 class UsersCreate extends Component {
 
   state = {
@@ -50,6 +64,11 @@ class UsersCreate extends Component {
 
   render() {
     const { user, containers } = this.state
+
+    const userRedux = this.props.data.user
+    if (!userRedux.loged) {
+      return <Redirect to="/login"/>
+    }
 
     return (
       <div>
@@ -110,4 +129,4 @@ class UsersCreate extends Component {
   }
 }
 
-export default UsersCreate
+export default connect(mapStateToProps, mapDispatchToProps)(UsersCreate)

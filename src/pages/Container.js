@@ -4,6 +4,19 @@ import * as Constants from './../constants/var'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Table from './../components/Table'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+
+function mapStateToProps(state: Object): Object {
+  return {
+    data: state.usersReducer
+  }
+}
+
+function mapDispatchToProps(dispatch: Function): Object {
+  return {
+  }
+}
 
 class Container extends Component {
 
@@ -42,6 +55,11 @@ class Container extends Component {
   render() {
     const { header, data } = this.state
 
+    const userRedux = this.props.data.user
+    if (!userRedux.loged) {
+      return <Redirect to="/login"/>
+    }
+
     return (
       <div>
         <Breadcrumb>
@@ -70,4 +88,4 @@ class Container extends Component {
   }
 }
 
-export default Container
+export default connect(mapStateToProps, mapDispatchToProps)(Container)

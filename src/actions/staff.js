@@ -13,3 +13,17 @@ export function actCreate(value = null) {
         payload: value
     }
 }
+
+export function actGetUser(value = null) {
+    return {
+        type: ActionTypes.USER_INFO,
+        payload: value
+    }
+}
+
+export function actSetUser(value = null) {
+    return {
+        type: ActionTypes.USER_INFO_SET,
+        payload: value
+    }
+}

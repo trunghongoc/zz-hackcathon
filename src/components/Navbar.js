@@ -4,15 +4,28 @@ import { Link } from 'react-router-dom';
 import createHistory from 'history/createHashHistory';
 import axios from 'axios';
 import * as Constants from './../constants/var'
-import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as userAction from './../actions/staff'
+
+function mapStateToProps(state: Object): Object {
+  return {
+    data: state.usersReducer
+  }
+}
+
+function mapDispatchToProps(dispatch: Function): Object {
+  return {
+    actRedux: bindActionCreators(userAction, dispatch)
+  }
+}
 
 const SubMenu = Menu.SubMenu;
 
 class Navbar extends Component {
   state = {
     current: 'dashboard',
-    history: createHistory(),
-    redirect: false
+    history: createHistory()
   }
 
   componentDidMount() {
@@ -25,13 +38,6 @@ class Navbar extends Component {
   showMess = (success) => {
     if (success) {
         message.success('Đăng xuất thành công', 1)
-        this.setState({
-          redirect: true
-        })
-
-        this.setState({
-          redirect: false
-        })
     } else {
         message.error('Xảy ra lỗi', 1)
     }
@@ -40,9 +46,15 @@ class Navbar extends Component {
   logout = () => {
     axios.post(Constants.logoutRoute, this.state)
     .then(
-        (res) => { this.showMess(true) },
-        (error) => { this.showMess(false) }
+        (res) => { this.showMess(true); this.fakeLoginSuccess(); },
+        (error) => { this.showMess(false); this.fakeLoginSuccess(); }
     );
+  }
+
+  fakeLoginSuccess = () => {
+    this.props.actRedux.actSetUser({
+        loged: false
+    })
   }
 
   handleClick = (e) => {
@@ -53,10 +65,14 @@ class Navbar extends Component {
   }
 
   render() {
-    const { redirect } = this.state
+    const userRedux = this.props.data.user
+    if (!userRedux.loged) {
+      return <div></div>
+    }
+
+    let title = <span><Icon type="setting" />{userRedux.info.name}</span>
+
     return (
-      <div>
-      {!redirect &&
       <Menu
         onClick={this.handleClick}
         selectedKeys={[this.state.current]}
@@ -78,21 +94,15 @@ class Navbar extends Component {
           <Link to="/containers"><Icon type="database" />Containers</Link>
         </Menu.Item>
 
-        <SubMenu title={<span><Icon type="setting" />Trung</span>} className="float-right">
+        <SubMenu title={title} className="float-right">
           <Menu.Item key="setting:1">
             <Link to="/profile">Trang cá nhân</Link>
           </Menu.Item>
           <Menu.Item key="setting:2" onClick={ this.logout }>Đăng xuất</Menu.Item>
         </SubMenu>
       </Menu>
-      }
-      {
-        redirect &&
-        <Redirect to="/login"/>
-      }
-      </div>
     );
   }
 }
 
-export default Navbar;
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

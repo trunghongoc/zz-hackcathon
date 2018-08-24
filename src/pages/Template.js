@@ -5,6 +5,21 @@ import * as Constants from './../constants/var'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+
+function mapStateToProps(state: Object): Object {
+  return {
+    data: state.usersReducer
+  }
+}
+
+function mapDispatchToProps(dispatch: Function): Object {
+  return {
+  }
+}
+
+
 class Template extends Component {
   state = {
     header: [
@@ -39,6 +54,11 @@ class Template extends Component {
   render() {
     let { header, data } = this.state
 
+    const userRedux = this.props.data.user
+    if (!userRedux.loged) {
+      return <Redirect to="/login"/>
+    }
+
     return (
       <div>
         <Breadcrumb>
@@ -67,4 +87,4 @@ class Template extends Component {
   }
 }
 
-export default Template
+export default connect(mapStateToProps, mapDispatchToProps)(Template)

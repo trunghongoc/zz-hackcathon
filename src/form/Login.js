@@ -4,6 +4,22 @@ import axios from 'axios';
 import * as Constants from './../constants/var'
 import Input from './../components/Input'
 
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as userAction from './../actions/staff'
+
+function mapStateToProps(state: Object): Object {
+  return {
+    data: state.usersReducer
+  }
+}
+
+function mapDispatchToProps(dispatch: Function): Object {
+  return {
+      actRedux: bindActionCreators(userAction, dispatch)
+  }
+}
+
 class LoginForm extends Component {
     state = {
         email: '',
@@ -30,11 +46,21 @@ class LoginForm extends Component {
     handleSubmit = (values) => {
         axios.post(Constants.loginRoute, this.state)
         .then(
-            (res) => { this.showMess(true) },
-            (error) => { this.showMess(false) }
+            (res) => { this.showMess(true); this.fakeLoginSuccess(); },
+            (error) => { this.showMess(false); this.fakeLoginSuccess(); }
         );
     }
-    
+
+    fakeLoginSuccess = () => {
+        this.props.actRedux.actSetUser({
+            loged: true,
+            info: {
+                name: 'Ahihi',
+                id: 1
+            }
+        })
+    }
+
     onChangeValue = (name, value) => {
         var obj  = {}
         obj[name] = value
@@ -61,4 +87,4 @@ class LoginForm extends Component {
   }
 }
 
-export default LoginForm
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
