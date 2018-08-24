@@ -18,9 +18,8 @@ function mapDispatchToProps(dispatch: Function): Object {
 class Login extends Component {
   render() {
     const userRedux = this.props.data.user
-    console.log(userRedux)
     if (userRedux.loged) {
-      return <Redirect to="/dashboard"/>
+      return <Redirect to="/"/>
     }
     return (
       <LoginForm/>

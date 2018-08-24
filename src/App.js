@@ -13,7 +13,7 @@ import ContainerCreate from './pages/ContainerCreate';
 import ContainerDetail from './pages/ContainerDetail';
 import TemplateCreate from './pages/TemplateCreate'
 import TemplateDetail from './pages/TemplateDetail'
-
+import CheckLogin from './components/CheckLogin';
 // redux
 import { Provider } from 'react-redux'
 import configureStore from './store/config'
@@ -51,6 +51,8 @@ class App extends Component {
                 </div>
               </div>
             </div>
+
+            <CheckLogin/>
           </div>
         </Router>
       </Provider>

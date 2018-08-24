@@ -52,13 +52,15 @@ class LoginForm extends Component {
     }
 
     fakeLoginSuccess = () => {
-        this.props.actRedux.actSetUser({
+        let user = {
             loged: true,
             info: {
                 name: 'Ahihi',
                 id: 1
             }
-        })
+        }
+        localStorage.setItem('user', JSON.stringify(user))
+        this.props.actRedux.actSetUser(user)
     }
 
     onChangeValue = (name, value) => {

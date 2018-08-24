@@ -36,7 +36,6 @@ const staff = handleActions({
     let newState = {}
     newState.user = state.user
     newState.user = { ...action.payload }
-    console.log({newState})
     return { ...state, ...newState }
   }
 }, initialState)

@@ -46,15 +46,17 @@ class Navbar extends Component {
   logout = () => {
     axios.post(Constants.logoutRoute, this.state)
     .then(
-        (res) => { this.showMess(true); this.fakeLoginSuccess(); },
-        (error) => { this.showMess(false); this.fakeLoginSuccess(); }
+        (res) => { this.showMess(true); this.fakeLogout(); },
+        (error) => { this.showMess(false); this.fakeLogout(); }
     );
   }
 
-  fakeLoginSuccess = () => {
+  fakeLogout = () => {
     this.props.actRedux.actSetUser({
         loged: false
     })
+
+    localStorage.removeItem('user')
   }
 
   handleClick = (e) => {
@@ -69,6 +71,8 @@ class Navbar extends Component {
     if (!userRedux.loged) {
       return <div></div>
     }
+
+    console.log(this.state.history)
 
     let title = <span><Icon type="setting" />{userRedux.info.name}</span>
 
