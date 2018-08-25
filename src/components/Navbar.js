@@ -72,8 +72,6 @@ class Navbar extends Component {
       return <div></div>
     }
 
-    console.log(this.state.history)
-
     let title = <span><Icon type="setting" />{userRedux.info.name}</span>
 
     return (

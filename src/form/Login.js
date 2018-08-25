@@ -22,22 +22,29 @@ function mapDispatchToProps(dispatch: Function): Object {
 
 class LoginForm extends Component {
     state = {
-        email: '',
+        mail: '',
         password: ''
     }
 
-    showMess = (success) => {
-        if (success) {
-            this.reset()
-            message.success('Đăng nhập thành công', 1)
+    showMess = (success, mess = '', type = 'success') => {
+        if (mess === '') {
+            if (success) {
+                this.reset()
+                message.success('Đăng nhập thành công', 1)
+            } else {
+                message.error('Xảy ra lỗi', 1)
+            }
         } else {
-            message.error('Xảy ra lỗi', 1)
+            if (type === 'success')
+                message.success(mess, 1)
+            else
+                message.error(mess, 1)
         }
     }
 
     reset = () => {
         const state = {
-            email: '',
+            mail: '',
             password: ''
         }
         this.setState({...state})
@@ -46,21 +53,25 @@ class LoginForm extends Component {
     handleSubmit = (values) => {
         axios.post(Constants.loginRoute, this.state)
         .then(
-            (res) => { this.showMess(true); this.fakeLoginSuccess(); },
-            (error) => { this.showMess(false); this.fakeLoginSuccess(); }
+            (res) => { this.loginSuccess(res); },
+            (error) => { this.showMess(false); }
         );
     }
 
-    fakeLoginSuccess = () => {
-        let user = {
-            loged: true,
-            info: {
-                name: 'Ahihi',
-                id: 1
+    loginSuccess = (res) => {
+        let data = res.data
+        if (data.result) {
+            let user = {
+                loged: true,
+                info: data.user
             }
+            user.info.id = data.user.user_id
+            localStorage.setItem('user', JSON.stringify(user))
+            this.props.actRedux.actSetUser(user)
+            this.showMess(true)
+        } else {
+            this.showMess(true, 'Tài khoản hoặc mật khẩu không chính xác!', 'error')
         }
-        localStorage.setItem('user', JSON.stringify(user))
-        this.props.actRedux.actSetUser(user)
     }
 
     onChangeValue = (name, value) => {
@@ -72,13 +83,13 @@ class LoginForm extends Component {
     }
 
   render() {
-    let { email, password } = this.state
+    let { mail, password } = this.state
     return (
       <div className="login-form">
         <h5 className="text-center">Smart Office</h5>
         <p className="text-center">Let's get started. Please Login.</p>
 
-        <Input onChangeValue={this.onChangeValue} value={email} kind="input" classList="mr-t-10" label="Email" placeholder="" name="email" type="email" iconName="mail"/>
+        <Input onChangeValue={this.onChangeValue} value={mail} kind="input" classList="mr-t-10" label="Email" placeholder="" name="mail" type="email" iconName="mail"/>
         <Input onChangeValue={this.onChangeValue} value={password} kind="input" classList="mr-t-10" label="Password" placeholder="" name="password" type="password" iconName="key"/>
 
         <div className="mr-t-20 text-right">

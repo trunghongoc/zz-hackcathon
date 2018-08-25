@@ -23,14 +23,12 @@ function mapDispatchToProps(dispatch: Function): Object {
 class Staff extends Component {
   state = {
     header: [
-      {title: 'Name', key: 'user_name'},
-      {title: 'Số container', key: 'container_number'},
+      {title: 'Name', key: 'name'},
+      {title: 'Số container', key: 'total'},
       {title: 'Phone', key: 'phone'},
-      {title: 'Email', key: 'user_email'}
+      {title: 'Email', key: 'email'}
     ],
     data: [
-      {id: 1, user_name: 'Justin Bieber', investion: 'Thực tập', user_email: 'a@a.com', container_number: 69, phone: '999999999'},
-      {id: 2, user_name: 'Phạm Băng Băng', investion: 'Team leader', user_email: 'b@a.com', container_number: 2, phone: '123456999'}
     ]
   }
 
@@ -38,7 +36,17 @@ class Staff extends Component {
     axios.post(Constants.usersRoute, {})
     .then(
       (res) => {
+        let data = res.data
+        let arrs = []
+        data.forEach(item => {
+          let i = { ...item }
+          i.id = item.user_id
+          arrs.push(i)
+        });
         console.log(res)
+        this.setState({
+          data: arrs
+        })
       },
       (error) => { this.showMess(false) }
     );
@@ -77,7 +85,7 @@ class Staff extends Component {
             </Link>
           </div>
         </div>
-        <Table header={header} data={data} />
+        <Table header={header} data={data} hasUser={true} />
       </div>
     );
   }

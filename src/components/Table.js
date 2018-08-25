@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 
 class Table extends Component {
   colValue = (data, item) => {
-    if (item.key === 'user_name') {
-      return <Link to={'/users/detail/' + data.id}>{data.user_name}</Link>
+    let { hasUser } = this.props
+    let _has = typeof(hasUser) === 'undefined' ? false : hasUser
+    if (item.key === 'name' && _has) {
+      return <Link to={'/users/detail/' + data.id}>{data.name}</Link>
     } else {
       return <span>{data[item.key]}</span>
     }

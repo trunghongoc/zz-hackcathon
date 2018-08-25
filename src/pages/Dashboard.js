@@ -21,14 +21,12 @@ function mapDispatchToProps(dispatch: Function): Object {
 class Dashboard extends Component {
   state = {
     header: [
-      {title: 'Name', key: 'user_name'},
-      {title: 'Chức vụ', key: 'investion'},
-      {title: 'Email', key: 'user_email'},
-      {title: 'Số container', key: 'container_number'}
+      {title: 'Name', key: 'name'},
+      {title: 'Chức vụ', key: 'position'},
+      {title: 'Email', key: 'email'},
+      {title: 'Số container', key: 'sum_'}
     ],
     data: [
-      {id: 1, user_name: 'Justin Bieber', investion: 'Thực tập', user_email: 'a@a.com', container_number: 69},
-      {id: 2, user_name: 'Phạm Băng Băng', investion: 'Team leader', user_email: 'b@a.com', container_number: 2}
     ]
   }
 
@@ -36,7 +34,16 @@ class Dashboard extends Component {
     axios.post(Constants.dashboardRoute, {})
     .then(
       (res) => {
-        console.log(res)
+        let data = res.data
+        let arrs = []
+        data.forEach(item => {
+          let i = { ...item }
+          i.id = item.user_id
+          arrs.push(i)
+        });
+        this.setState({
+          data: arrs
+        })
       },
       (error) => { this.showMess(false) }
     );
@@ -66,7 +73,7 @@ class Dashboard extends Component {
         <h5>Tổng quan nhân viên</h5>
         <p>{data.length} total</p>
 
-        <Table header={header} data={data} />
+        <Table header={header} data={data} hasUser={true} />
       </div>
     );
   }

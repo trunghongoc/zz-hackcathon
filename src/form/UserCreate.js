@@ -8,11 +8,11 @@ import { Link } from 'react-router-dom';
 
 class UserCreateForm extends Component {
   state = {
-    user_name: '',
+    name: '',
     phone: '',
     note: '',
-    investion: '',
-    user_email: ''
+    position: '',
+    email: ''
   }
 
   showMess = (success) => {
@@ -26,20 +26,26 @@ class UserCreateForm extends Component {
 
   reset = () => {
     const state = {
-      user_name: '',
+      name: '',
       phone: '',
       note: '',
-      investion: '',
-      user_email: ''
+      position: '',
+      email: ''
     }
     this.setState({...state})
   }
 
   handleSubmit = (values) => {
-    let { user_name, phone, note, investion, user_email } = this.state
-    axios.post(Constants.createUserRoute, {user_name, phone, note, investion, user_email})
+    let { name, phone, note, position, email } = this.state
+    axios.post(Constants.createUserRoute, {name, phone, note, position, email})
     .then(
-      (res) => { this.showMess(true) },
+      (res) => {
+        let result = res.data.result
+        if(result)
+          this.showMess(true)
+        else
+          this.showMess(false)
+      },
       (error) => { this.showMess(false) }
     );
   }
@@ -54,20 +60,20 @@ class UserCreateForm extends Component {
 
   render() {
     const { handleSubmit } = this
-    let { user_name, phone, note, investion, user_email } = this.state
+    let { name, phone, note, position, email } = this.state
 
     return (
       <div onSubmit={handleSubmit}>
         <div className="row">
           <div className="col col-6">
-            <Input onChangeValue={this.onChangeValue} value={user_name} kind="input" classList="mr-t-10" label="Họ tên" placeholder="e.g., Acme Corp, Inc." name="user_name" type="text" iconName="user"/>
+            <Input onChangeValue={this.onChangeValue} value={name} kind="input" classList="mr-t-10" label="Họ tên" placeholder="e.g., Acme Corp, Inc." name="name" type="text" iconName="user"/>
             <Input onChangeValue={this.onChangeValue} value={phone} kind="input" classList="mr-t-10" label="Số điện thoại" placeholder="(555) 555 555" name="phone" type="text" iconName="phone"/>
             <Input onChangeValue={this.onChangeValue} value={note} kind="textarea" classList="mr-t-10" label="Note" placeholder="" name="note" type="text" iconName="phone"/>
           </div>
 
           <div className="col col-6">
-            <Input onChangeValue={this.onChangeValue} value={investion} kind="input" classList="mr-t-10" label="Chức vụ" placeholder="e.g., Shally Investson" name="investion" type="text" iconName="star-o"/>
-            <Input onChangeValue={this.onChangeValue} value={user_email} kind="input" classList="mr-t-10" label="Email Address" placeholder="trung.hn@zinza.com.vn" name="user_email" type="email" iconName="mail"/>
+            <Input onChangeValue={this.onChangeValue} value={position} kind="input" classList="mr-t-10" label="Chức vụ" placeholder="e.g., Shally Investson" name="position" type="text" iconName="star-o"/>
+            <Input onChangeValue={this.onChangeValue} value={email} kind="input" classList="mr-t-10" label="Email Address" placeholder="trung.hn@zinza.com.vn" name="email" type="email" iconName="mail"/>
           </div>
           <div className="col col-6"></div>
 
